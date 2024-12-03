@@ -1,0 +1,472 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+      Regex Pattern Builder
+    </title>
+    <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link href="assets/global/plugins/bootstrap-toastr/toastr.min.css" rel="stylesheet">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"> </script>
+    <script src="assets/global/plugins/bootstrap-toastr/toastr.min.js"></script>
+
+   
+
+    
+
+
+   
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            height: 100%;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            font-size: large;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #555;
+        }
+        input[type="text"], input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .row {
+            display: flex;
+            justify-content: space-between;
+        }
+        .col {
+            flex: 1;
+            margin: 0 10px;
+        }
+        /* Modal Background */
+    /* Modal Background */
+        .modal-content {
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        /* Modal Header */
+        .modal-header {
+            background-color: #007bff;
+            color: white;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .modal-title {
+            font-size: 24px;
+        }
+
+        /* Close Button */
+        .close {
+            color: white;
+            font-size: 20px;
+            opacity: 1;
+            width:20px;
+        }
+
+        .close:hover {
+            color: #ccc;
+            width: 50px;
+        }
+
+        /* Modal Body */
+        .modal-body {
+            font-size: 18px;
+            padding: 30px;
+            background-color: #f9f9f9;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        #GenPattern {
+            margin-bottom: 20px;
+        }
+
+        /* Input Field */
+        #fieldValue {
+            width: 100%;
+            padding: 10px;
+            margin: 2px 0;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        /* Copy Button */
+        #copyButton {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 160px;
+            margin-left: 300px;
+        }
+
+        #copyButton:hover {
+            background-color: #0056b3;
+        }
+
+        /* Modal Footer */
+        .modal-footer {
+            padding: 15px;
+            background-color: #f1f1f1;
+            border-top: 1px solid #e9ecef;
+            border-bottom-left-radius: 10px;
+            border-bottom-right-radius: 10px;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+
+    </style>
+</head>
+<body>
+
+        <div class="container">
+                <h1>Pattern Builder Form</h1>
+                <form id="patternForm">
+                    <div>
+                        <label for="fieldName">Input Label:</label>
+                        <input type="text" id="fieldName" name="fieldName" placeholder="Enter your Field Name" required>
+                    </div>
+
+                    <div id="customPatternDiv">
+                        <div class="row">
+                            <div class="col">
+                                <label for="minLength">Minimum Length:</label>
+                                <input type="number" id="minLength" name="minLength" placeholder="Enter minimum length">
+                            </div>
+                            <div class="col">
+                                <label for="maxLength">Maximum Length:</label>
+                                <input type="number" id="maxLength" name="maxLength" placeholder="Enter maximum length">
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col">
+                                <label for="letters">Allowed Letters:</label>
+                                <input type="text" id="letters" name="letters" placeholder="Enter allowed letters (a-z, A-Z)">
+                            </div>
+                            <div class="col">
+                                <label for="numbers">Allowed Numbers:</label>
+                                <input type="text" id="numbers" name="numbers" placeholder="Enter allowed numbers (0-9)">
+                            </div>
+                            <div class="col">
+                                <label for="specialChars">Allowed Special Characters:</label>
+                                <input type="text" id="specialChars" name="specialChars" placeholder="Enter allowed special characters (!@#$%^&*_+ etc.)">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <label for="startsequence">Starting Sequence (optional):</label>
+                                <input type="text" id="startsequence" name="startsequence" placeholder="Enter Start Sequence (optional)">
+                            </div>
+                            <div class="col">
+                                <label for="midsequence">Mid Sequence (optional):</label>
+                                <input type="text" id="midsequence" name="midsequence" placeholder="Enter Mid Sequence (optional)">
+                            </div>
+                            <div class="col">
+                                <label for="endsequence">End Sequence (optional):</label>
+                                <input type="text" id="endsequence" name="endsequence" placeholder="Enter End Sequence (optional)">
+                            </div>
+                        </div>
+
+
+                        <h4>Start Sequence config(Optional)</h4>
+                        <div class="row">
+                            <div class="col">
+                                <label for="startAllowedLetters">Allowed Letters:</label>
+                                <input type="text" id="startAllowedLetters" name="startAllowedLetters" placeholder="Enter allowed letters for start sequence">
+                            </div>
+                            <div class="col">
+                                <label for="startAllowedNumbers">Allowed Numbers:</label>
+                                <input type="text" id="startAllowedNumbers" name="startAllowedNumbers" placeholder="Enter allowed numbers for start sequence">
+                            </div>
+                            <div class="col">
+                                <label for="startSpecialChars">Allowed Special Characters:</label>
+                                <input type="text" id="startSpecialChars" name="startSpecialChars" placeholder="Enter allowed special characters for start sequence">
+                            </div>
+                            <div class="col">
+                                <label for="startMinLength">Minimum Length:</label>
+                                <input type="number" id="startMinLength" name="startMinLength" placeholder="Enter minimum length for start sequence">
+                            </div>
+                            <div class="col">
+                                <label for="startMaxLength">Maximum Length:</label>
+                                <input type="number" id="startMaxLength" name="startMaxLength" placeholder="Enter maximum length for start sequence">
+                            </div>
+                        </div>
+
+                        <h4>Mid Sequence config(Optional)</h4>
+                        <div class="row">
+                        <div class="col">
+                                <label for="midstartsequence">starting sequence for mid:</label>
+                                <input type="text" id="midstartsequence" name="midstartsequence" placeholder="Enter starting sequence for mid sequence">
+                            </div>
+                            <div class="col">
+                                <label for="midAllowedLetters">Allowed Letters:</label>
+                                <input type="text" id="midAllowedLetters" name="midAllowedLetters" placeholder="Enter allowed letters for mid sequence">
+                            </div>
+                            <div class="col">
+                                <label for="midAllowedNumbers">Allowed Numbers:</label>
+                                <input type="text" id="midAllowedNumbers" name="midAllowedNumbers" placeholder="Enter allowed numbers for mid sequence">
+                            </div>
+                            <div class="col">
+                                <label for="midSpecialChars">Allowed Special Characters:</label>
+                                <input type="text" id="midSpecialChars" name="midSpecialChars" placeholder="Enter allowed special characters for mid sequence">
+                            </div>
+                            <div class="col">
+                                <label for="midMinLength">Minimum Length:</label>
+                                <input type="number" id="midMinLength" name="midMinLength" placeholder="Enter minimum length for mid sequence">
+                            </div>
+                            <div class="col">
+                                <label for="midMaxLength">Maximum Length:</label>
+                                <input type="number" id="midMaxLength" name="midMaxLength" placeholder="Enter maximum length for mid sequence">
+                            </div>
+                        </div>
+
+                        <h4>End Sequence config(Optional)</h4>
+                        <div class="row">
+                        <div class="col">
+                                <label for="endstartsequence">starting sequence for end:</label>
+                                <input type="text" id="endstartsequence" name="endstartsequence" placeholder="Enter starting sequence for end sequence">
+                            </div>
+                            <div class="col">
+                                <label for="endAllowedLetters">Allowed Letters:</label>
+                                <input type="text" id="endAllowedLetters" name="endAllowedLetters" placeholder="Enter allowed letters for end sequence">
+                            </div>
+                            <div class="col">
+                                <label for="endAllowedNumbers">Allowed Numbers:</label>
+                                <input type="text" id="endAllowedNumbers" name="endAllowedNumbers" placeholder="Enter allowed numbers for end sequence">
+                            </div>
+                            <div class="col">
+                                <label for="endSpecialChars">Allowed Special Characters:</label>
+                                <input type="text" id="endSpecialChars" name="endSpecialChars" placeholder="Enter allowed special characters for end sequence">
+                            </div>
+                            <div class="col">
+                                <label for="endMinLength">Minimum Length:</label>
+                                <input type="number" id="endMinLength" name="endMinLength" placeholder="Enter minimum length for end sequence">
+                            </div>
+                            <div class="col">
+                                <label for="endMaxLength">Maximum Length:</label>
+                                <input type="number" id="endMaxLength" name="endMaxLength" placeholder="Enter maximum length for end sequence">
+                            </div>
+                        </div>
+                    </div>
+
+                    <button data-target="#patternModal" data-toggle="modal">Generate Pattern</button>
+                </form>
+            </div>
+            <div class="modal fade" id="patternModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content modal-lg">
+                            <div class=" modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Validation</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body" id="pattern_modal_div" style="font-size: 25px;">
+                            <div id="GenPattern"></div><button id="copyButton">Copy</button>
+                            <label for="fieldValue">Test Input:</label>
+                            <input type="text" id="fieldValue" name="fieldValue" placeholder="Enter input String to Test and Validate" >
+                            <span id="isValid"></span>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+  
+
+
+<script>
+    var regexString="";
+   
+    document.getElementById('patternForm').addEventListener('submit', function(event) {
+        event.preventDefault();
+        regexString="";
+        const minLength = parseInt(document.getElementById('minLength').value, 10) || '' ;
+        const maxLength = parseInt(document.getElementById('maxLength').value, 10) || '' ;
+        const letters = document.getElementById('letters').value;
+        const numbers = document.getElementById('numbers').value;
+        const specialChars = document.getElementById('specialChars').value;
+
+        const startSequence = document.getElementById('startsequence').value;
+        const startAllowedLetters = document.getElementById('startAllowedLetters').value;
+        const startAllowedNumbers = document.getElementById('startAllowedNumbers').value;
+        const startSpecialChars = document.getElementById('startSpecialChars').value;
+        const startMinLength = parseInt(document.getElementById('startMinLength').value, 10) || '';
+        const startMaxLength = parseInt(document.getElementById('startMaxLength').value, 10) || '';
+
+        const midSequence = document.getElementById('midsequence').value;
+        const midstartsequence=document.getElementById('midstartsequence').value
+        const midAllowedLetters = document.getElementById('midAllowedLetters').value;
+        const midAllowedNumbers = document.getElementById('midAllowedNumbers').value;
+        const midSpecialChars = document.getElementById('midSpecialChars').value;
+        const midMinLength = parseInt(document.getElementById('midMinLength').value, 10) || '';
+        const midMaxLength = parseInt(document.getElementById('midMaxLength').value, 10) || '';
+
+        const endSequence = document.getElementById('endsequence').value;
+        const endstartsequence=document.getElementById('endstartsequence').value;
+        const endAllowedLetters = document.getElementById('endAllowedLetters').value;
+        const endAllowedNumbers = document.getElementById('endAllowedNumbers').value;
+        const endSpecialChars = document.getElementById('endSpecialChars').value;
+        const endMinLength = parseInt(document.getElementById('endMinLength').value, 10) || '';
+        const endMaxLength = parseInt(document.getElementById('endMaxLength').value, 10) || '';
+
+        function constructPattern(sequence,allowedLetters, allowedNumbers, specialChars, minLength, maxLength,startSequence='') {
+            let pattern = '';
+            if (sequence) {
+               
+                pattern += sequence.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+            } else {
+                let charClass = '';
+                if (allowedLetters) charClass += allowedLetters;
+                if (allowedNumbers) charClass += allowedNumbers;
+                if (specialChars) charClass += specialChars;
+
+                if (charClass) {
+                    charClass=charClass.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                    if(startSequence){
+                        startSequence=startSequence.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+                        if(minLength!=='' || maxLength!==''){
+                           
+                        pattern += `${startSequence}[${charClass}]{${minLength},${maxLength}}`;
+                        // console.log("minLengths:"+minLength)
+                        }
+                        else{
+                            pattern += `${startSequence}[${charClass}]+`;
+
+                        }
+                       
+
+                    }
+                    else{
+                        if(minLength!=='' || maxLength!==''){
+                           
+                           pattern += `${startSequence}[${charClass}]{${minLength},${maxLength}}`;
+                           // console.log("minLengths:"+minLength)
+                           }
+                           else{
+                               pattern += `${startSequence}[${charClass}]+`;
+   
+                           }
+
+                    }
+                }
+            }
+           
+            return pattern;
+        }
+
+         regexString+= '^';
+        // console.log(startMinLength+" and "+startMaxLength)
+
+        regexString += constructPattern(startSequence, startAllowedLetters, startAllowedNumbers, startSpecialChars, startMinLength, startMaxLength);
+        regexString += constructPattern(midSequence,midAllowedLetters, midAllowedNumbers, midSpecialChars, midMinLength, midMaxLength,midstartsequence);
+
+        let characterClass = '';
+        if (letters) characterClass += letters;
+        if (numbers) characterClass += numbers;
+        if (specialChars) characterClass += specialChars;
+        // console.log(startMaxLength+"and "+endMaxLength)
+        if(characterClass)
+        {
+        regexString += `[${characterClass}]{${minLength - (startSequence ? startSequence.length : startMaxLength ? startMaxLength : 0) - (midSequence ? midSequence.length : midMaxLength ? midMaxLength : 0)-(endSequence ? endSequence.length : endMaxLength ? endMaxLength : 0)},${maxLength - (startSequence ? startSequence.length : startMaxLength ? startMaxLength : 0)- (midSequence ? midSequence.length : midMaxLength ? midMaxLength : 0) - (endSequence ? endSequence.length : endMaxLength ? endMaxLength : 0)}}`;
+        }
+        regexString += constructPattern(endSequence, endAllowedLetters, endAllowedNumbers, endSpecialChars, endMinLength, endMaxLength,endstartsequence);
+        regexString += '$';
+
+        $('#GenPattern').text("Pattern Generated: /"+regexString+"/");
+        console.log(`Pattern Generated: ${regexString}`);
+
+        document.getElementById('copyButton').addEventListener('click', function() {
+           const regexfullstring=`/${regexString}/`; 
+        navigator.clipboard.writeText(regexfullstring).then(() => {
+            alert('Regex copied to clipboard!');
+        }, (err) => {
+            console.error('Could not copy text: ', err);
+        });
+    });
+      document.getElementById('fieldValue').addEventListener('blur',function(){
+        const pattern = new RegExp(regexString);
+        const fieldValue = document.getElementById('fieldValue').value;
+        const isValid = pattern.test(fieldValue);
+        console.log("valid?: "+isValid);
+        if(isValid){
+            $('#isValid').css('color','green')
+            $('#isValid').text("Valid ");
+        }
+        else{
+            $('#isValid').css('color','red');
+            $('#isValid').text("Invalid! ");
+
+        }
+
+      })
+      $(document).ready(function(){
+        $('#patternModal').on('show.bs.modal', function (e) {
+            $('#fieldValue').val('');
+            $('#isValid').text('');
+        });
+    });
+   
+   
+    
+    });
+   
+</script>
+
+</body>
+</html>
